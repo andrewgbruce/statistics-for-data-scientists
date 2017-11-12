@@ -9,14 +9,16 @@ library(descr)
 
 # Import the datasets needed for chapter 1
 PSDS_PATH <- file.path('~', 'statistics-for-data-scientists')
+dir.create(file.path(PSDS_PATH, 'figures'))
 
 state <- read.csv(file.path(PSDS_PATH, 'data', 'state.csv'))
 dfw <- read.csv(file.path(PSDS_PATH, 'data', 'dfw_airline.csv'))
 sp500_px <- read.csv(file.path(PSDS_PATH, 'data', 'sp500_px.csv'))
-sp500_sym <- read.csv(file.path(PSDS_PATH, 'data', 'sp500_sym.csv'))
+sp500_sym <- read.csv(file.path(PSDS_PATH, 'data', 'sp500_sym.csv'), stringsAsFactors = FALSE)
 kc_tax <- read.csv(file.path(PSDS_PATH, 'data', 'kc_tax.csv'))
 lc_loans <- read.csv(file.path(PSDS_PATH, 'data', 'lc_loans.csv'))
-
+airline_stats <- read.csv(file.path(PSDS_PATH, 'data', 'airline_stats.csv'), stringsAsFactors = FALSE)
+airline_stats$airline <- ordered(airline_stats$airline, levels=c('Alaska', 'American', 'Jet Blue', 'Delta', 'United', 'Southwest'))
 ## Code to create state table
 state_asc <- state
 state_asc[["Population"]] <- formatC(state_asc[["Population"]], format="d", digits=0, big.mark=",")

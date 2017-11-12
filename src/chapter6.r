@@ -11,7 +11,11 @@ library(xgboost)
 PSDS_PATH <- file.path('~', 'statistics-for-data-scientists')
 
 loan200 <- read.csv(file.path(PSDS_PATH, 'data', 'loan200.csv'))
+loan200$outcome <- ordered(loan200$outcome, levels=c('paid off', 'default'))
+
 loan3000 <- read.csv(file.path(PSDS_PATH, 'data', 'loan3000.csv'))
+loan3000$outcome <- ordered(loan3000$outcome, levels=c('paid off', 'default'))
+
 loan_data <- read.csv(file.path(PSDS_PATH, 'data', 'loan_data.csv'))
 loan_data <- select(loan_data, -X, -status)
 
@@ -281,7 +285,7 @@ label <- as.numeric(loan_data$outcome)-1
 test_idx <- sample(nrow(loan_data), 10000)
 
 xgb_default <- xgboost(data=predictors[-test_idx,], label=label[-test_idx], 
-                       objective = "binary:logistic", nrounds=250)
+                       objective = "binary:logistic", nrounds=250, verbose=0)
 pred_default <- predict(xgb_default, predictors[test_idx,])
 error_default <- abs(label[test_idx] - pred_default) > 0.5
 xgb_default$evaluation_log[250,]

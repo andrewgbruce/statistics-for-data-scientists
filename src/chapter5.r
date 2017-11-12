@@ -14,6 +14,9 @@ PSDS_PATH <- file.path('~', 'statistics-for-data-scientists')
 
 loan3000 <- read.csv(file.path(PSDS_PATH, 'data', 'loan3000.csv'))
 loan_data <- read.csv(file.path(PSDS_PATH, 'data', 'loan_data.csv'))
+loan_data$outcome <- ordered(loan_data$outcome, levels=c('paid off', 'default'))
+full_train_set <- read.csv(file.path(PSDS_PATH, 'data', 'full_train_set.csv'))
+full_train_set$outcome <- ordered(full_train_set$outcome, levels=c('paid off', 'default'))
 
 ## Naive Bayes
 naive_model <- NaiveBayes(outcome ~ purpose_ + home_ + emp_len_, 
@@ -197,23 +200,25 @@ head(roc_df)
 
 
 ## Code for Undersampling
+mean(full_train_set$outcome=='default')
+
 full_model <- glm(outcome ~ payment_inc_ratio + purpose_ + 
                     home_ + emp_len_+ dti + revol_bal + revol_util,
-                  data=train_set, family='binomial')
+                  data=full_train_set, family='binomial')
 pred <- predict(full_model)
 mean(pred > 0)
 
 ## Code for oversampling/up weighting
-wt <- ifelse(loan_all_data$outcome=='default', 1/mean(loan_all_data$outcome == 'default'), 1)
+wt <- ifelse(full_train_set$outcome=='default', 1/mean(full_train_set$outcome == 'default'), 1)
 full_model <- glm(outcome ~ payment_inc_ratio + purpose_ + 
                     home_ + emp_len_+ dti + revol_bal + revol_util,
-                  data=loan_all_data, weight=wt, family='binomial')
+                  data=full_train_set, weight=wt, family='quasibinomial')
 pred <- predict(full_model)
 mean(pred > 0)
 
-## SMOTE example (data generation); code not in book
+## SMOTE example (data generation); code not in book. This no longer works for some reason
 library(unbalanced)
-loan_data_samp <- sample_frac(loan_all_data, .05)
+loan_data_samp <- sample_frac(full_train_set, .05)
 smote_data <- ubSMOTE(loan_data_samp, loan_data_samp$outcome, 
                       perc.over = 2000, k = 5, perc.under = 100)
 

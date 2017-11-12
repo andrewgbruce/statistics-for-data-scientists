@@ -11,4 +11,4 @@ If you save the repository elsewhere, you will need to edit the line
 
   PSDS_PATH <- file.path('~', 'statistics-for-data-scientists')
 
-to point ot the appropriate directory in all of the scripts.
+to point to the appropriate directory in all of the scripts.

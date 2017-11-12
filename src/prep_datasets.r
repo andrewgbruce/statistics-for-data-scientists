@@ -162,7 +162,7 @@ key_vars <- c("status", "inactive_loans", "bad_loans",
               "grade_num", "sub_grade_num", 
               "loan_amnt", "term", "annual_inc", 
               "dti",  "payment_inc_ratio", "revol_bal", "revol_util",
-              "addr_state", "purpose", "home_ownership", "emp_length_num", 
+              "purpose", "home_ownership", "emp_length_num", 
               "delinq_2yrs_zero", "pub_rec_zero", "open_acc")
 
 loans0 <- na.omit(loans0[key_vars])
@@ -186,8 +186,11 @@ lc_loans[lc_loans$status=="Default", "status"] <- "Charged Off"
 lc_loans[lc_loans$status=="In Grace Period", "status"] <- "Late"
 lc_loans[lc_loans$status=="Late (16-30 days)", "status"] <- "Late"
 lc_loans[lc_loans$status=="Late (31-120 days)", "status"] <- "Late"
-lc_loans$status <- factor(lc_loans$status, levels=c("Fully Paid", "Current", "Late", "Charged Off"))
+lc_loans$status <- ordered(lc_loans$status, levels=c("Fully Paid", "Current", "Late", "Charged Off"))
 lc_loans <- na.omit(lc_loans)
+
+grade <- cut(lc_loans$grade, c(-.1, 1, 2, 3, 4, 5, 6, 7.1), labels=c('G', 'F', 'E', 'D', 'C', 'B', 'A'))
+lc_loans$grade <- ordered(grade, rev(levels(grade)))
 
 write_csv(lc_loans, file.path(PSDS_PATH, 'data', 'lc_loans.csv'))
 
@@ -206,13 +209,16 @@ loans$home_ = home
 emp_len_ = factor(loans$emp_length < 0.5, labels=c(' > 1 Year', ' < 1 Year'))
 loans$emp_len_ = emp_len_
 
-train_set <- filter(loans, outcome!='target') %>%
+full_train_set <- filter(loans, outcome!='target') %>%
   mutate(outcome = droplevels(outcome))
-n_train <- nrow(train_set)
+n_train <- nrow(full_train_set)
+full_train_set$outcome <- ordered(full_train_set$outcome, levels=c('paid off', 'default'))
+
+write_csv(full_train_set, file.path(PSDS_PATH, 'data', 'full_train_set.csv'))
 
 
-default_df <- train_set[train_set$outcome=='default',]
-good_df <- train_set[train_set$outcome=='paid off', ]
+default_df <- full_train_set[full_train_set$outcome=='default',]
+good_df <- full_train_set[full_train_set$outcome=='paid off', ]
 m <- nrow(default_df)
 
 #seed <- .Random.seed

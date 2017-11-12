@@ -12,9 +12,10 @@ library(cluster)
 ## Import datasets needed for chapter 7
 PSDS_PATH <- file.path('~', 'statistics-for-data-scientists')
 
-sp500_px <- read.csv(file.path(PSDS_PATH, 'data', 'sp500_px.csv'))
-sp500_sym <- read.csv(file.path(PSDS_PATH, 'data', 'sp500_sym.csv'))
+sp500_px <- read.csv(file.path(PSDS_PATH, 'data', 'sp500_px.csv'), row.names = 1)
+sp500_sym <- read.csv(file.path(PSDS_PATH, 'data', 'sp500_sym.csv'), stringsAsFactors = FALSE)
 loan_data <- read.csv(file.path(PSDS_PATH, 'data', 'loan_data.csv'))
+loan_data$outcome <- ordered(loan_data$outcome, levels=c('paid off', 'default'))
 
 ###############################################################
 ## PCA for oil data
@@ -80,7 +81,7 @@ dev.off()
 
 set.seed(1010103)
 df <- sp500_px[row.names(sp500_px)>='2011-01-01', c('XOM', 'CVX')]
-km <- kmeans(df, centers=4, nstart=10)
+km <- kmeans(df, centers=4, nstart=1)
 
 df$cluster <- factor(km$cluster)
 head(df)
@@ -275,7 +276,7 @@ km0 <- kmeans(df0, centers=4, nstart=10)
 centers0 <- scale(km0$centers, center=FALSE, scale=1/attr(df0, 'scaled:scale'))
 centers0 <- scale(centers0, center=-attr(df0, 'scaled:center'), scale=FALSE)
 centers0 <- data.frame(size=km0$size, centers0) 
-round(centers, digits=2)
+round(centers0, digits=2)
 
 km <- kmeans(df, centers=4, nstart=10)
 centers <- data.frame(size=km$size, km$centers) 

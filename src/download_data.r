@@ -14,6 +14,7 @@ download_from_google_drive(id="0B98qpkK5EJembFc5RmVKVVJPdGc", fname='state.csv',
 
 ## Airline data
 download_from_google_drive(id="0B98qpkK5EJemcmZYX2VhMHBXelE", fname='dfw_airline.csv', path=PSDS_PATH)
+download_from_google_drive(id="0B98qpkK5EJemMzZYZHZJaF9va0U", fname='airline_stats.csv', path=PSDS_PATH)
 
 ## Import stock data
 download_from_google_drive('0B98qpkK5EJemV2htZWdhVFRMNlU', fname='sp500_px.csv', path=PSDS_PATH)
@@ -24,6 +25,7 @@ download_from_google_drive('0B98qpkK5EJemck5VWkszN3F3RGM', fname='kc_tax.csv', p
 
 ## Import lending club loan data
 download_from_google_drive('0B98qpkK5EJemRXpfa2lONlFRSms', fname='lc_loans.csv', path=PSDS_PATH)
+download_from_google_drive('1J96vAqyh92VIeh7kBFm1NBfZcvx8wp2s', fname='full_train_set.csv', path=PSDS_PATH)
 
 ## Import a sample of 200 records from lending club loan data
 download_from_google_drive('0B98qpkK5EJemd0JnQUtjb051dTA', fname='loan200.csv', path=PSDS_PATH)
@@ -58,4 +60,3 @@ download_from_google_drive('0B98qpkK5EJemWGRWOEhYN1RabVk', fname='County_Zhvi_Al
 
 ## Import King county house sales data
 download_from_google_drive('0B98qpkK5EJemVTRRN0dLakxwTmM', fname='house_sales.csv', path=PSDS_PATH)
-

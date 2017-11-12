@@ -19,7 +19,8 @@ zhvi <- data.frame(ym=dates, zhvi_px=zhvi, row.names = NULL) %>%
   mutate(zhvi_idx=zhvi/last(zhvi))
 
 house <- read.csv(file.path(PSDS_PATH, 'data', 'house_sales.csv'), sep='\t')
-
+# house <- house[house$ZipCode > 0, ]
+# write.table(house, file.path(PSDS_PATH, 'data', 'house_sales.csv'), sep='\t')
 ## Code for Figure 1
 png(filename=file.path(PSDS_PATH, 'figures', 'psds_0401.png'),  width = 4, height=4, units='in', res=300)
 par(mar=c(4,4,0,0)+.1)
