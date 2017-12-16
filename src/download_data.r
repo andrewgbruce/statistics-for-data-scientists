@@ -1,6 +1,9 @@
 library(RCurl)
 PSDS_PATH <- file.path('~', 'statistics-for-data-scientists')
 
+## Create data subdirectory
+dir.create(file.path(PSDS_PATH, 'data'), showWarnings = FALSE)
+
 download_from_google_drive <- function(id, fname, path)
 {
   url <- sprintf("https://drive.google.com/uc?export=download&id=%s", id)
