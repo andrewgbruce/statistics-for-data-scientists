@@ -319,20 +319,21 @@ lm_spline <- lm(AdjSalePrice ~ bs(SqFtTotLiving, knots=knots, degree=3) +  SqFtL
                   Bathrooms + Bedrooms + BldgGrade,  data=house_98105)
 
 
-terms <- predict(lm_spline, type='terms')
-partial_resid <- resid(lm_spline) + terms
+terms1 <- predict(lm_spline, type='terms')
+partial_resid1 <- resid(lm_spline) + terms
 
 ## Code for Figure 4-12
 png(filename=file.path(PSDS_PATH, 'figures', 'psds_0412.png'), width = 4, height=4, units='in', res=300)
 
-df <- data.frame(SqFtTotLiving = house_98105[, 'SqFtTotLiving'],
-                 Terms = terms[, 1],
-                 PartialResid = partial_resid[, 1])
-ggplot(df, aes(SqFtTotLiving, PartialResid)) +
+df1 <- data.frame(SqFtTotLiving = house_98105[, 'SqFtTotLiving'],
+                 Terms = terms1[, 1],
+                 PartialResid = partial_resid1[, 1])
+ggplot(df1, aes(SqFtTotLiving, PartialResid)) +
   geom_point(shape=1) + scale_shape(solid = FALSE) +
   geom_smooth(linetype=2) + 
   geom_line(aes(SqFtTotLiving, Terms))+
   theme_bw()
+
 dev.off()
 
 ## Code snippet 4.27

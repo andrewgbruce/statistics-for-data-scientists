@@ -69,8 +69,9 @@ state_abb <- state %>%
   group_by(PopFreq) %>%
   summarize(state = paste(Abbreviation, collapse=","), .drop=FALSE) %>%
   complete(PopFreq, fill=list(state='')) %>%
-  select(state) %>%
-  unlist(state_abb)
+  select(state) 
+
+state_abb <- unlist(state_abb)
 
 lower_br <- formatC(breaks[1:10], format="d", digits=0, big.mark=",")
 upper_br <- formatC(c(breaks[2:10]-1, breaks[11]), format="d", digits=0, big.mark=",")
@@ -117,7 +118,7 @@ barplot(as.matrix(dfw)/6, cex.axis = 0.8, cex.names = 0.7)
 dev.off()
 
 
-## Code for CorrTable
+## Code for CorrTable (Table 1.7)
 telecom <- sp500_px[, sp500_sym[sp500_sym$sector=="telecommunications_services", 'symbol']]
 telecom <- telecom[row.names(telecom)>"2012-07-01", ]
 telecom_cor <- cor(telecom)
