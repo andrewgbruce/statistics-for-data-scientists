@@ -97,17 +97,28 @@ text(loan_tree, cex=.75)
 dev.off()
 
 ## Figure 6-4: View of partition rules
-r_tree <- data_frame(x1 = c(0.525, 0,     0.375, 0.525, 0.625),
-                     x2 = c(0.525, 0.525, 0.375, 1,     0.625),
-                     y1 = c(0,     9.732, 0,     8.772, 8.772),
-                     y2 = c(25,    9.732, 9.732, 8.772, 25),
-                     rule_number = factor(c(1, 2, 4, 3, 5)))
+r_tree <- data_frame(x1 = c(0.575, 0.375, 0.375, 0.375, 0.475),
+                     x2 = c(0.575, 0.375, 0.575, 0.575, 0.475),
+                     y1 = c(0,         0, 10.42, 4.426, 4.426),
+                     y2 = c(25,       25, 10.42, 4.426, 10.42),
+                     rule_number = factor(c(1, 2, 3, 4, 5)))
 r_tree <- as.data.frame(r_tree)
 
-labs <- data.frame(x=c(.375/2, .45, 1.525/2, 1.625/2, .575, .525/2),
-                   y=c(8.772/2, 8.772/2, 9.732/2, 
-                       9.732 + (25 - 9.732)/2, 9.732 + (25 - 9.732)/2, 9.732 + (25 - 8.772)/2),
-                   decision = factor(c('default', 'paid off', 'paid off', 'paid off', 'default', 'default')))
+labs <- data.frame(x=c(.575 + (1-.575)/2, 
+                       .375/2, 
+                       (.375 + .575)/2,
+                       (.375 + .575)/2, 
+                       (.475 + .575)/2, 
+                       (.375 + .475)/2
+                       ),
+                   y=c(12.5, 
+                       12.5,
+                       10.42 + (25-10.42)/2,
+                       4.426/2, 
+                       4.426 + (10.42-4.426)/2,
+                       4.426 + (10.42-4.426)/2
+                       ),
+                   decision = factor(c('paid off', 'default', 'default', 'paid off', 'paid off', 'default')))
 
 
 png(filename=file.path(PSDS_PATH, 'figures', 'psds_0604.png'), width = 6, height=4, units='in', res=300)
@@ -210,7 +221,8 @@ ggplot(data=rf_df, aes(x=borrower_score, y=payment_inc_ratio, color=prob_default
   geom_line(data=lda_df0, col='green', size=2, alpha=.8)
 dev.off()
 
-## Fit random forest to all the data; this can take a while
+## Fit random forest to all the data; this can take a while and
+## may cause problems if you don't have enough RAM
 rf_all <- randomForest(outcome ~ ., data=loan_data, importance=TRUE)
 rf_all
 
@@ -294,7 +306,7 @@ mean(error_default)
 xgb_penalty <- xgboost(data=predictors[-test_idx,], 
                        label=label[-test_idx], 
                        params=list(eta=.1, subsample=.63, lambda=1000),
-                       objective = "binary:logistic", nrounds=250)
+                       objective = "binary:logistic", nrounds=250, verbose=0)
 pred_penalty <- predict(xgb_penalty, predictors[test_idx,])
 error_penalty <- abs(label[test_idx] - pred_penalty) > 0.5
 xgb_penalty$evaluation_log[250,]

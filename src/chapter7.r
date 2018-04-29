@@ -24,7 +24,7 @@ oil_px <- sp500_px[, c('CVX', 'XOM')]
 pca <- princomp(oil_px)
 pca$loadings
 
-## Figure 7-1: principal components for oil stock dayta
+## Figure 7-1: principal components for oil stock data
 png(filename=file.path(PSDS_PATH, 'figures', 'psds_0701.png'), width = 4, height=4, units='in', res=300)
 loadings <- pca$loadings
 ggplot(data=oil_px, aes(x=CVX, y=XOM)) +
@@ -320,7 +320,7 @@ par(mar=c(0,5,0,0)+.1)
 plot(dnd, leaflab='none', ylab='distance')
 dev.off()
 
-dnd_cut <- cut(dnd, h=0.5)
+dnd_cut <- cut(dnd, h=.5)
 df[labels(dnd_cut$lower[[1]]),]
 
 

@@ -18,7 +18,7 @@ ggplot(session_times, aes(x=Page, y=Time)) +
 png(filename=file.path(PSDS_PATH, 'figures', 'psds_0303.png'),  width = 4, height=4, units='in', res=300)
 ggplot(session_times, aes(x=Page, y=Time)) + 
   geom_boxplot() +
-  labs(y='Time (in seconds') + 
+  labs(y='Time (in seconds)') + 
   theme_bw()
 dev.off()
 
