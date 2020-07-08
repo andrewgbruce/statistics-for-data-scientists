@@ -6,6 +6,7 @@ library(vioplot)
 library(ascii)
 library(corrplot)
 library(descr)
+library(scales)
 
 # Import the datasets needed for chapter 1
 PSDS_PATH <- file.path('~', 'statistics-for-data-scientists')
@@ -21,7 +22,7 @@ airline_stats <- read.csv(file.path(PSDS_PATH, 'data', 'airline_stats.csv'), str
 airline_stats$airline <- ordered(airline_stats$airline, levels=c('Alaska', 'American', 'Jet Blue', 'Delta', 'United', 'Southwest'))
 ## Code to create state table
 state_asc <- state
-state_asc[["Population"]] <- formatC(state_asc[["Population"]], format="d", digits=0, big.mark=",")
+state_asc[["Population"]] <- scales::comma(state_asc[["Population"]])
 ascii(state_asc[1:8,], digits=c(0, 0,1), align=c("l", "l", "r", "r"), caption="A few rows of the +data.frame state+ of population and murder rate by state.")
 
 ## Code snippet 1.1
