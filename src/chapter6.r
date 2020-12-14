@@ -18,6 +18,7 @@ loan3000$outcome <- ordered(loan3000$outcome, levels=c('paid off', 'default'))
 
 loan_data <- read.csv(file.path(PSDS_PATH, 'data', 'loan_data.csv'))
 loan_data <- select(loan_data, -X, -status)
+loan_data$outcome <- ordered(loan_data$outcome, levels=c('paid off', 'default'))
 
 ## KNN
 ## the first row of loan200 is the target data
