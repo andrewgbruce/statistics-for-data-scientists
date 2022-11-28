@@ -19,4 +19,11 @@ Median(state$Murder.Rate, weights = state$Population)
 # TASK: compute the standard deviation, IQR and median absolute deviation for the population
 sd(state$Population)
 IQR(state$Population)
-mad(state$Population)
+mad(state$Population, constant = 1)
+
+
+#manually creating the median absolute deviation to test it against the f'n in Python
+median_minus_observed <- state$Population - Median(state$Population)
+abs_median_minus_observed <- abs(median_minus_observed)
+median_absolute_deviation <- Median(abs_median_minus_observed)
+median_absolute_deviation
