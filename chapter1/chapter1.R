@@ -15,4 +15,8 @@ weighted.mean(state$Murder.Rate, w = state$Population)
 library(DescTools)
 Median(state$Murder.Rate, weights = state$Population)
 
-
+# EXAMPLE: Variability Estimates of State Population
+# TASK: compute the standard deviation, IQR and median absolute deviation for the population
+sd(state$Population)
+IQR(state$Population)
+mad(state$Population)
