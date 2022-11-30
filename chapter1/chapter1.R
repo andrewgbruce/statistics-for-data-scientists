@@ -27,3 +27,20 @@ median_minus_observed <- state$Population - Median(state$Population)
 abs_median_minus_observed <- abs(median_minus_observed)
 median_absolute_deviation <- Median(abs_median_minus_observed)
 median_absolute_deviation
+
+# Percentiles of the Murder Rate by State
+quantile(state$Murder.Rate, p = c(0.05, 0.25, 0.5, 0.75, 0.95))
+
+# Boxplot of the Population by State
+boxplot(state$Population/1000000, ylab = "Population (millions)")
+
+# Frequency Table of State Population 
+#1: make breaks 
+breaks <- seq(from = min(state$Population), to = max(state$Population), length = 11)
+#2: divide data based on breaks (divide the data into 11 equal sections)
+pop_freq <- cut(state$Population, breaks = breaks, right = TRUE, include.lowest = TRUE)
+#3: make freq. table
+table(pop_freq)
+
+# Histogram of State Population
+hist(state$Population, breaks = breaks, ylim = c(0, 25))
