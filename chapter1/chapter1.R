@@ -44,3 +44,11 @@ table(pop_freq)
 
 # Histogram of State Population
 hist(state$Population, breaks = breaks, ylim = c(0, 25))
+
+# Density estimate of Murder Rate
+hist(state$Murder.Rate, freq = FALSE)
+lines(density(state$Murder.Rate), lwd = 3, col = 'blue')
+#by setting 'freq = FALSE', density is used on the y-axis instead of frequency (proportion instead of counts)
+?density
+
+
