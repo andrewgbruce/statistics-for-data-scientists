@@ -51,4 +51,12 @@ lines(density(state$Murder.Rate), lwd = 3, col = 'blue')
 #by setting 'freq = FALSE', density is used on the y-axis instead of frequency (proportion instead of counts)
 ?density
 
+dfw <- read.csv("dfw_airline.csv", header = TRUE)
+
+# Barplot to show airport delays per year by cause for DFW 
+barplot(as.matrix(dfw)/6, cex.axis = 0.5, las = 2, ylim = c(0, 20000))
+?barplot
+#added las = 2: orientation of axis labels to be perpendicular to x axis
+#counts divided by 6 to reduce scale of data - shows the trend of data but not the actual data
+
 
