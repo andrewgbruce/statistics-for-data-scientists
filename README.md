@@ -1,5 +1,5 @@
 # statistics-for-data-scientists
-Code associated with the book "Practical Statistics for Data Scientists: 50 Essential Concepts" - applying all concepts from book into R and Python
+Code associated with the book "Practical Statistics for Data Scientists: 50 Essential Concepts" - applying all concepts from book into R and Python for my (Susheel) learning purposes
 
 The scripts are stored by chapter and replicate most of the figures and code snippets.
 
