@@ -79,7 +79,7 @@ corrplot(cor(wines), method = "number", number.cex = 0.5, bg = "black")
 plot(wines$pH, wines$chlorides, xlab = "pH", ylab = "chlorides")
 #makes sense as to why it's a negative yet weak relationship, it does seem to slope downward from high chloride, low pH to low chloride, high pH; however, a great majority of values are gathered, away from the pattern, in the lower values of each variable - thus causing a weak correlation between pH and chlorides.
 
-# TASK: hexagonal binning to explore relationship between SqftTotLiving and TaxAssessedValue
+# TASK: hexagonal binning to explore relationship between SqftTotLiving and TaxAssessedValue (2 numeric variables)
 df <- read.csv("kc_tax.csv", header = TRUE)
 
 kc_tax <- subset(df, TaxAssessedValue < 750000 & SqFtTotLiving > 100 & SqFtTotLiving < 3500)
@@ -87,13 +87,14 @@ kc_tax <- subset(df, TaxAssessedValue < 750000 & SqFtTotLiving > 100 & SqFtTotLi
 
 library(ggplot2)
 library(hexbin)
-ggplot(kc_tax, (aes(x = kc_tax$SqFtTotLiving, y = kc_tax$TaxAssessedValue))) + stat_binhex(color = "white") + theme_bw() + scale_fill_gradient(low = "white", high = "black") + labs(x = "Finished Square Feet", y = "Tax Assessed Value")
+ggplot(kc_tax, (aes(x = SqFtTotLiving, y = TaxAssessedValue))) + stat_binhex(color = "white") + theme_bw() + scale_fill_gradient(low = "white", high = "black") + labs(x = "Finished Square Feet", y = "Tax Assessed Value")
 
-# TASK: contour plot to explore relationship between SqftTotLiving and TaxAssessedValue
+
+# TASK: contour plot to explore relationship between SqftTotLiving and TaxAssessedValue to visualize 2 numeric variables
 ggplot(kc_tax, aes(SqFtTotLiving, TaxAssessedValue)) + theme_bw() + geom_point(alpha = 0.1) + geom_density2d(color = "white") + labs(x = "Finished Square Feet", y = "Tax Assessed Value")
 
 
-# TASK: Contingency Table of loan grade and status
+# TASK: Contingency Table of loan grade and status to visualize 2 categorical variables
 lc_loans <- read.csv("lc_loans.csv", header = TRUE)
 install.packages("descr")
 
@@ -102,4 +103,9 @@ library(descr)
 x_tab <- CrossTable(lc_loans$grade, lc_loans$status, prop.c = FALSE, prop.chisq = FALSE, prop.t = FALSE)
 x_tab
 
-# TASK: 
+?CrossTable
+
+# TASK: Plot boxplot to visualize categorical and numerical variables
+df <- read.csv("airline_stats.csv", header = TRUE)
+boxplot(pct_atc_delay ~ airline, data = df, ylim = c(0, 100))
+
