@@ -109,3 +109,17 @@ x_tab
 df <- read.csv("airline_stats.csv", header = TRUE)
 boxplot(pct_atc_delay ~ airline, data = df, ylim = c(0, 100))
 
+# TASK: Plot violin plot to visualize categorical and numerical variables
+df <- read.csv("airline_stats.csv", header = TRUE)
+ggplot(data = df, aes(airline, pct_carrier_delay)) + ylim(0, 50) + geom_violin() + labs(x = "", y = "Daily % of Delayed Flights")
+
+
+#ggplot(data = df, aes(airline, pct_carrier_delay)) + ylim(0, 50) + geom_violin() + geom_boxplot() + labs(x = "", y = "Daily % of Delayed Flights")
+
+# TASK: Plot various aspects of the effect of Finished Square Feet on Tax Value for data conditioning
+df <- read.csv("kc_tax.csv", header = TRUE)
+
+kc_tax <- subset(df, TaxAssessedValue < 750000 & SqFtTotLiving > 100 & SqFtTotLiving < 3500)
+
+ggplot(subset(kc_tax, ZipCode %in% c(98188, 98105, 98108, 98126)), aes(x = SqFtTotLiving, y = TaxAssessedValue)) + 
+stat_binhex(color = "white") + theme_bw() + scale_fill_gradient(low = "white", high = "blue") + labs(x = "Finished Square Feet", y = "Tax Assessed Value") + facet_wrap("ZipCode")
